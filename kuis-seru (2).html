@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kuis Seru</title>
+<meta name="description" content="20 soal pelajaran kelas 7 SMP dan pengetahuan umum. Berapa skormu?">
+<meta property="og:site_name" content="Kuis Seru">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kuis Seru">
+<meta property="og:description" content="20 soal pelajaran kelas 7 SMP dan pengetahuan umum. Berapa skormu? Ayo adu skor di grup!">
+<meta property="og:url" content="https://gwgantenk67.github.io/surat-guru/kuis-seru.html">
+<meta property="og:image" content="https://gwgantenk67.github.io/surat-guru/kuis-seru.png">
+<meta property="og:image:secure_url" content="https://gwgantenk67.github.io/surat-guru/kuis-seru.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gwgantenk67.github.io/surat-guru/kuis-seru.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700;800&display=swap">
+<style>
+:root {
+  --bg1: #1b1147; --bg2: #3a1c71;
+  --yellow: #ffd23f; --mint: #3ddc97; --coral: #ff5d73;
+  --card: rgba(255,255,255,.1); --line: rgba(255,255,255,.24);
+  --fg: #f4f1ff; --muted: #b9b0e8;
+  --font-head: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; font-family: var(--font-body); font-size: 16px; color: var(--fg);
+  background: linear-gradient(160deg, var(--bg1), var(--bg2)) fixed;
+  padding: 22px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px));
+  overflow-x: hidden;
+}
+main { max-width: 460px; margin: 0 auto; }
+.screen[hidden] { display: none; }
+.screen { display: flex; flex-direction: column; gap: 18px; }
+h1, h2 { font-family: var(--font-head); margin: 0; line-height: 1.05; text-wrap: balance; }
+h1 { font-size: clamp(3rem, 15vw, 4.4rem); font-weight: 800; color: var(--yellow); text-align: center; }
+.tag { text-align: center; color: var(--muted); line-height: 1.6; margin: 0; }
+.badge { align-self: center; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-weight: 800; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+.badge[hidden] { display: none; }
+.hero-q { font-family: var(--font-head); font-size: 6rem; text-align: center; line-height: 1; margin: 10px 0 0; animation: bob 2.6s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-10px) rotate(6deg); } }
+
+.btn { font: 800 1.1rem var(--font-body); cursor: pointer; border: 0; border-radius: 16px; padding: 16px 22px; color: #2a1a00; background: var(--yellow); box-shadow: 0 6px 0 #c79a0d; text-align: center; text-decoration: none; display: block; width: 100%; transition: transform .1s, box-shadow .1s; }
+.btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #c79a0d; }
+.btn.wa { background: #25d366; color: #04321a; box-shadow: 0 6px 0 #148a43; }
+.btn.wa:active { box-shadow: 0 2px 0 #148a43; }
+.btn.ghost { background: var(--card); color: var(--fg); box-shadow: none; border: 1px solid var(--line); }
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+.sound { position: fixed; z-index: 10; top: calc(env(safe-area-inset-top, 0px) + 10px); right: max(12px, env(safe-area-inset-right, 0px)); font: 800 13px var(--font-body); color: var(--fg); background: rgba(255,255,255,.14); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; backdrop-filter: blur(6px); }
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 800; padding-top: 26px; }
+.bar { height: 10px; background: var(--card); border-radius: 999px; overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--mint), var(--yellow)); border-radius: 999px; transition: width .4s ease; }
+.q { font-family: var(--font-head); font-weight: 800; font-size: clamp(1.5rem, 6.4vw, 1.9rem); line-height: 1.2; margin: 6px 0 2px; text-wrap: balance; }
+.opts { display: flex; flex-direction: column; gap: 10px; }
+.opt { font: 700 1.05rem var(--font-body); text-align: left; color: var(--fg); background: var(--card); border: 2px solid var(--line); border-radius: 14px; padding: 15px 16px; cursor: pointer; display: flex; gap: 12px; align-items: center; transition: transform .08s, border-color .15s, background .15s; }
+.opt:active:not(:disabled) { transform: scale(.98); }
+.opt .l { flex: none; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.16); display: grid; place-items: center; font-weight: 800; font-size: 14px; }
+.opt.ok { border-color: var(--mint); background: rgba(61,220,151,.22); }
+.opt.ok .l { background: var(--mint); color: #05301d; }
+.opt.no { border-color: var(--coral); background: rgba(255,93,115,.22); animation: shake .35s; }
+.opt.no .l { background: var(--coral); color: #3a0510; }
+.opt:disabled { cursor: default; }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.note { min-height: 3.2em; margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--card); line-height: 1.5; font-size: 15px; }
+.note[hidden] { display: none; }
+
+#end { padding-top: 34px; }
+.score { font-family: var(--font-head); font-weight: 800; text-align: center; font-size: 5.5rem; color: var(--yellow); line-height: 1; margin: 0; }
+.score small { font-size: 2rem; color: var(--muted); }
+.rank { font-family: var(--font-head); font-weight: 800; font-size: 1.8rem; text-align: center; margin: 0; text-wrap: balance; }
+.stars { display: flex; justify-content: center; gap: 6px; font-size: 1.8rem; }
+.hint { margin: 0; font-size: 13px; color: var(--muted); text-align: center; line-height: 1.5; }
+.confetti { position: fixed; top: -20px; z-index: 5; pointer-events: none; font-size: 22px; animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(540deg); opacity: .9; } }
+@media (prefers-reduced-motion: reduce) { .hero-q { animation: none; } .confetti { display: none; } .opt.no { animation: none; } }
+</style>
+</head>
+<body>
+<button class="sound" id="soundBtn" type="button" aria-pressed="true">🔔 Suara: nyala</button>
+
+<main>
+  <!-- Mulai -->
+  <section class="screen" id="start">
+    <div class="hero-q" aria-hidden="true">?</div>
+    <h1>Kuis Seru</h1>
+    <span class="badge" id="kelasBadge" hidden></span>
+    <p class="tag"><span id="jumlah">20</span> soal pelajaran kelas 7 SMP dan pengetahuan umum.<br>Jawab cepat, lalu adu skor di grup!</p>
+    <button class="btn" id="startBtn" type="button">Mulai Kuis</button>
+  </section>
+
+  <!-- Soal -->
+  <section class="screen" id="play" hidden>
+    <div class="top"><span id="no">Soal 1 / 20</span><span id="pts">Skor 0</span></div>
+    <div class="bar" aria-hidden="true"><i id="fill"></i></div>
+    <h2 class="q" id="q"></h2>
+    <div class="opts" id="opts"></div>
+    <p class="note" id="note" hidden></p>
+    <button class="btn" id="nextBtn" type="button" hidden>Lanjut</button>
+  </section>
+
+  <!-- Hasil -->
+  <section class="screen" id="end" hidden>
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <p class="score" id="score"></p>
+    <p class="rank" id="rank"></p>
+    <p class="tag" id="rankSub"></p>
+    <a class="btn wa" id="shareBtn" href="#">📲 Bagikan skor ke grup</a>
+    <button class="btn ghost" id="againBtn" type="button">Main lagi</button>
+    <p class="hint">Tombol hijau membuka WhatsApp dengan skormu sudah terisi.</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  /* ===== PENGATURAN ===== */
+  var LINK_KUIS = 'https://gwgantenk67.github.io/surat-guru/kuis-seru.html';
+
+  /* Daftar soal. Ubah, tambah, atau hapus sesuka hati.
+     q = pertanyaan, a = pilihan jawaban, c = nomor jawaban benar (mulai dari 0), e = penjelasan singkat */
+  var SOAL = [
+    { q: "Matematika: Hasil dari -5 + 8 adalah...", a: ["-13", "-3", "3", "13"], c: 2, e: "Dari -5 naik 8 langkah, hasilnya 3." },
+    { q: "Matematika: Keliling persegi dengan sisi 7 cm adalah...", a: ["14 cm", "28 cm", "49 cm", "21 cm"], c: 1, e: "Keliling persegi = 4 x sisi = 4 x 7 = 28 cm." },
+    { q: "Matematika: Luas segitiga dengan alas 10 cm dan tinggi 6 cm adalah...", a: ["16 cm²", "30 cm²", "60 cm²", "36 cm²"], c: 1, e: "Luas segitiga = 1/2 x alas x tinggi = 1/2 x 10 x 6 = 30." },
+    { q: "Matematika: Jumlah ketiga sudut dalam sebuah segitiga adalah...", a: ["90°", "180°", "270°", "360°"], c: 1, e: "Jumlah sudut dalam segitiga selalu 180°." },
+    { q: "Matematika: Hasil dari 1/2 + 1/4 adalah...", a: ["2/6", "1/6", "3/4", "1/8"], c: 2, e: "1/2 sama dengan 2/4, jadi 2/4 + 1/4 = 3/4." },
+    { q: "IPA: Satuan baku (SI) untuk mengukur panjang adalah...", a: ["Kilogram", "Meter", "Detik", "Liter"], c: 1, e: "Satuan SI untuk panjang adalah meter." },
+    { q: "IPA: Proses tumbuhan hijau membuat makanan dengan bantuan cahaya matahari disebut...", a: ["Respirasi", "Fotosintesis", "Transpirasi", "Evaporasi"], c: 1, e: "Fotosintesis menghasilkan makanan (glukosa) dan oksigen." },
+    { q: "IPA: Perubahan wujud dari padat langsung menjadi gas disebut...", a: ["Mencair", "Membeku", "Menyublim", "Mengembun"], c: 2, e: "Contohnya kapur barus yang lama-lama habis menjadi gas." },
+    { q: "IPA: Alat yang digunakan untuk mengukur suhu adalah...", a: ["Barometer", "Termometer", "Stopwatch", "Neraca"], c: 1, e: "Termometer dipakai untuk mengukur suhu." },
+    { q: "Bahasa Indonesia: Lawan kata (antonim) dari \"rajin\" adalah...", a: ["Giat", "Tekun", "Malas", "Pandai"], c: 2, e: "Antonim berarti lawan kata. Lawan rajin adalah malas." },
+    { q: "Bahasa Inggris: Bentuk jamak (plural) dari \"child\" adalah...", a: ["Childs", "Childes", "Children", "Childrens"], c: 2, e: "\"Child\" adalah kata tak beraturan. Jamaknya \"children\"." },
+    { q: "PPKn: Sila pertama Pancasila berbunyi...", a: ["Kemanusiaan yang adil dan beradab", "Persatuan Indonesia", "Ketuhanan Yang Maha Esa", "Keadilan sosial bagi seluruh rakyat Indonesia"], c: 2, e: "Sila pertama: Ketuhanan Yang Maha Esa." },
+    { q: "Umum: Apa rumus kimia air?", a: ["CO2", "O2", "H2O", "NaCl"], c: 2, e: "Air terdiri dari 2 atom hidrogen dan 1 atom oksigen." },
+    { q: "Umum: Benua yang paling luas adalah...", a: ["Afrika", "Eropa", "Australia", "Asia"], c: 3, e: "Asia adalah benua terluas dan paling banyak penduduknya." },
+    { q: "Umum: Hewan terbesar di dunia adalah...", a: ["Gajah", "Paus biru", "Jerapah", "Hiu putih"], c: 1, e: "Paus biru bisa sepanjang sekitar 30 meter." },
+    { q: "Umum: Indonesia memproklamasikan kemerdekaan pada tahun...", a: ["1942", "1945", "1950", "1955"], c: 1, e: "Proklamasi dibacakan pada 17 Agustus 1945." },
+    { q: "Umum: Planet yang paling dekat dengan Matahari adalah...", a: ["Venus", "Bumi", "Merkurius", "Mars"], c: 2, e: "Merkurius adalah planet terdekat dari Matahari." },
+    { q: "Umum: Hewan yang makanannya hanya tumbuhan disebut...", a: ["Karnivora", "Herbivora", "Omnivora", "Insektivora"], c: 1, e: "Herbivora memakan tumbuhan, contohnya sapi dan kambing." },
+    { q: "Umum: Arti semboyan \"Bhinneka Tunggal Ika\" adalah...", a: ["Bersatu kita teguh", "Berbeda-beda tetapi tetap satu", "Tanah air kita", "Maju terus pantang mundur"], c: 1, e: "Berbeda-beda tetapi tetap satu jua." },
+    { q: "Umum: Gas yang kita hirup untuk bernapas adalah...", a: ["Karbon dioksida", "Nitrogen", "Hidrogen", "Oksigen"], c: 3, e: "Tubuh memakai oksigen untuk menghasilkan tenaga." }
+  ];
+
+  var HURUF = ['A', 'B', 'C', 'D'];
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Nama kelas dari link, contoh ...kuis-seru.html?kelas=7H */
+  $('jumlah').textContent = SOAL.length;
+  var kelas = '';
+  try { kelas = (new URLSearchParams(location.search).get('kelas') || '').slice(0, 20); } catch (e) {}
+  if (kelas) { $('kelasBadge').textContent = 'Kelas ' + kelas; $('kelasBadge').hidden = false; }
+
+  /* ===== Suara ===== */
+  var ctx = null, master = null, musicGain = null, soundOn = true;
+  function audio() {
+    if (ctx) return true;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return false;
+    ctx = new AC(); master = ctx.createGain(); master.gain.value = soundOn ? 0.7 : 0; master.connect(ctx.destination);
+    musicGain = ctx.createGain(); musicGain.gain.value = 0.55; musicGain.connect(master);
+    return true;
+  }
+  function tone(f, t, d, type, v) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type || 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(v || 0.25, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + d + 0.05);
+  }
+  function play(kind) {
+    if (!soundOn || !audio()) return;
+    ctx.resume();
+    var t = ctx.currentTime + 0.02;
+    if (kind === 'ok') { tone(659, t, .18, 'triangle'); tone(880, t + .12, .3, 'triangle'); }
+    else if (kind === 'no') { tone(220, t, .25, 'sawtooth', .15); tone(165, t + .16, .35, 'sawtooth', .15); }
+    else if (kind === 'click') { tone(520, t, .08, 'square', .08); }
+    else if (kind === 'win') { [523, 659, 784, 1046, 784, 1046].forEach(function (f, i) { tone(f, t + i * .13, .35, 'triangle', .22); }); }
+    else if (kind === 'meh') { [392, 330, 262].forEach(function (f, i) { tone(f, t + i * .2, .4, 'triangle', .2); }); }
+  }
+
+  /* ===== Musik latar santai (dibuat sendiri dengan Web Audio) ===== */
+  var BPM = 76, beat = 60 / BPM, stepDur = beat / 2;
+  var CHORDS = [
+    [261.63, 329.63, 392.00, 493.88],   /* Cmaj7 */
+    [220.00, 261.63, 329.63, 392.00],   /* Am7 */
+    [293.66, 349.23, 440.00, 523.25],   /* Dm7 */
+    [196.00, 246.94, 293.66, 349.23]    /* G7 */
+  ];
+  var BASS = [130.81, 110.00, 146.83, 98.00];
+  var PENTA = [523.25, 587.33, 659.25, 783.99, 880.00];
+  var musicTimer = null, musicNext = 0, musicStep = 0, noiseBuf = null, fileAudio = null, useFile = false;
+
+  function chordPad(freqs, t, dur) {
+    var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1100; lp.connect(musicGain);
+    freqs.forEach(function (f, i) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'triangle'; o.frequency.value = f; o.detune.value = (i - 1.5) * 4;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.linearRampToValueAtTime(0.05, t + 0.25);
+      g.gain.linearRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(lp); o.start(t); o.stop(t + dur + 0.05);
+    });
+  }
+  function bassNote(f, t) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.16, t + 0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + beat * 1.8);
+    o.connect(g); g.connect(musicGain); o.start(t); o.stop(t + beat * 1.9);
+  }
+  function hat(t) {
+    if (!noiseBuf) {
+      noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 0.2, ctx.sampleRate);
+      var d = noiseBuf.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    }
+    var src = ctx.createBufferSource(); src.buffer = noiseBuf;
+    var hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 7000;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.035, t + 0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+    src.connect(hp); hp.connect(g); g.connect(musicGain); src.start(t, 0, 0.08);
+  }
+  function melody(f, t) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'sine'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.07, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
+    o.connect(g); g.connect(musicGain); o.start(t); o.stop(t + 1.15);
+  }
+  function musicTick() {
+    if (!ctx || !soundOn) return;
+    while (musicNext < ctx.currentTime + 0.4) {
+      var inBar = musicStep % 8, bar = Math.floor(musicStep / 8) % 4;
+      if (inBar === 0) { chordPad(CHORDS[bar], musicNext, stepDur * 8); bassNote(BASS[bar], musicNext); }
+      if (inBar === 4) bassNote(BASS[bar], musicNext);
+      if (inBar % 2 === 1) hat(musicNext);
+      if (inBar !== 0 && Math.random() < 0.28) melody(PENTA[Math.floor(Math.random() * PENTA.length)], musicNext);
+      musicNext += stepDur; musicStep++;
+    }
+  }
+  function synthMusic() {
+    if (musicTimer || !ctx) return;
+    musicNext = ctx.currentTime + 0.1;
+    musicTimer = setInterval(musicTick, 150);
+  }
+  /* Kalau ada file musik.mp3 di folder yang sama, file itu yang diputar. Kalau tidak ada, pakai musik buatan di atas. */
+  function startMusic() {
+    if (!audio()) return;
+    ctx.resume();
+    if (useFile && fileAudio) { fileAudio.muted = !soundOn; fileAudio.play().catch(function () {}); return; }
+    if (fileAudio === null) {
+      try {
+        fileAudio = new Audio('musik.mp3'); fileAudio.loop = true; fileAudio.volume = 0.5;
+        fileAudio.addEventListener('error', function () { useFile = false; synthMusic(); });
+        var pr = fileAudio.play();
+        if (pr && pr.then) pr.then(function () { useFile = true; }, function () { useFile = false; synthMusic(); });
+        else synthMusic();
+      } catch (e) { fileAudio = false; synthMusic(); }
+      return;
+    }
+    synthMusic();
+  }
+
+  $('soundBtn').addEventListener('click', function () {
+    soundOn = !soundOn;
+    this.textContent = soundOn ? '🔔 Suara: nyala' : '🔇 Suara: mati';
+    this.setAttribute('aria-pressed', String(soundOn));
+    if (ctx) master.gain.value = soundOn ? 0.7 : 0;
+    if (fileAudio) fileAudio.muted = !soundOn;
+    if (soundOn && ctx && !musicTimer && !useFile && fileAudio !== null) synthMusic();
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { if (ctx) ctx.suspend(); if (fileAudio && useFile) fileAudio.pause(); }
+    else { if (ctx && soundOn) ctx.resume(); if (fileAudio && useFile && soundOn) fileAudio.play().catch(function () {}); }
+  });
+
+  /* ===== Permainan ===== */
+  var urutan = [], idx = 0, skor = 0, terjawab = false;
+
+  function acak(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function tampil(id) { ['start', 'play', 'end'].forEach(function (s) { $(s).hidden = s !== id; }); window.scrollTo(0, 0); }
+
+  function mulai() {
+    urutan = acak(SOAL.map(function (_, i) { return i; }));
+    idx = 0; skor = 0;
+    tampil('play'); soal();
+  }
+
+  function soal() {
+    terjawab = false;
+    var s = SOAL[urutan[idx]];
+    $('no').textContent = 'Soal ' + (idx + 1) + ' / ' + SOAL.length;
+    $('pts').textContent = 'Skor ' + skor;
+    $('fill').style.width = (idx / SOAL.length * 100) + '%';
+    $('q').textContent = s.q;
+    $('note').hidden = true; $('nextBtn').hidden = true;
+    var box = $('opts'); box.innerHTML = '';
+    var pilihan = acak(s.a.map(function (t, i) { return { t: t, benar: i === s.c }; }));
+    pilihan.forEach(function (p, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt';
+      b.innerHTML = '<span class="l">' + HURUF[i] + '</span><span></span>';
+      b.lastChild.textContent = p.t;
+      b.addEventListener('click', function () { jawab(b, p.benar, s); });
+      b.dataset.benar = p.benar ? '1' : '0';
+      box.appendChild(b);
+    });
+  }
+
+  function jawab(btn, benar, s) {
+    if (terjawab) return;
+    terjawab = true;
+    var semua = $('opts').querySelectorAll('.opt');
+    for (var i = 0; i < semua.length; i++) {
+      semua[i].disabled = true;
+      if (semua[i].dataset.benar === '1') semua[i].classList.add('ok');
+    }
+    if (benar) { skor++; play('ok'); } else { btn.classList.add('no'); play('no'); }
+    $('pts').textContent = 'Skor ' + skor;
+    $('note').textContent = (benar ? 'Benar! ' : 'Kurang tepat. ') + s.e;
+    $('note').hidden = false;
+    $('nextBtn').textContent = idx === SOAL.length - 1 ? 'Lihat hasil' : 'Lanjut';
+    $('nextBtn').hidden = false;
+    $('nextBtn').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+  }
+
+  function hasil() {
+    $('fill').style.width = '100%';
+    var n = SOAL.length, p = skor / n, judul, sub;
+    if (p === 1) { judul = 'Sempurna! Juara Kelas 🏆'; sub = 'Semua jawabanmu benar. Hebat sekali!'; }
+    else if (p >= 0.8) { judul = 'Keren, Hampir Sempurna!'; sub = 'Tinggal sedikit lagi menuju nilai penuh.'; }
+    else if (p >= 0.6) { judul = 'Lumayan Pintar!'; sub = 'Coba lagi, siapa tahu skormu naik.'; }
+    else if (p >= 0.4) { judul = 'Ayo Belajar Lagi!'; sub = 'Masih ada waktu untuk mengejar teman-temanmu.'; }
+    else { judul = 'Perlu Remedial 😄'; sub = 'Tenang, namanya juga belajar. Coba sekali lagi!'; }
+    $('score').innerHTML = skor + '<small> / ' + n + '</small>';
+    $('rank').textContent = judul; $('rankSub').textContent = sub;
+    var st = ''; for (var i = 0; i < 5; i++) st += i < Math.round(p * 5) ? '⭐' : '☆';
+    $('stars').textContent = st;
+    teks = 'Skorku di Kuis Seru' + (kelas ? ' (Kelas ' + kelas + ')' : '') + ': ' + skor + '/' + n + ' - ' + judul.replace(/[^\w\s!,.\/-]/g, '').trim() + '. Coba kamu bisa berapa? ' + LINK_KUIS + (kelas ? '?kelas=' + encodeURIComponent(kelas) : '');
+    $('shareBtn').href = 'https://wa.me/?text=' + encodeURIComponent(teks);
+    tampil('end');
+    if (p >= 0.6) { play('win'); confetti(); } else { play('meh'); }
+  }
+  var teks = '';
+
+  function confetti() {
+    if (reduce) return;
+    var set = ['🎉', '⭐', '✨', '🎊', '💛'];
+    for (var i = 0; i < 24; i++) {
+      (function (i) {
+        setTimeout(function () {
+          var c = document.createElement('div');
+          c.className = 'confetti'; c.textContent = set[i % set.length];
+          c.style.left = (Math.random() * 94) + '%';
+          c.style.animationDuration = (3 + Math.random() * 3) + 's';
+          document.body.appendChild(c);
+          setTimeout(function () { c.remove(); }, 6500);
+        }, i * 90);
+      })(i);
+    }
+  }
+
+  $('startBtn').addEventListener('click', function () { audio(); play('click'); startMusic(); mulai(); });
+  $('nextBtn').addEventListener('click', function () {
+    play('click');
+    if (idx === SOAL.length - 1) hasil(); else { idx++; soal(); }
+  });
+  $('againBtn').addEventListener('click', function () { play('click'); mulai(); });
+
+  /* Bagikan: coba buka aplikasi WhatsApp langsung, cadangan ke versi web */
+  $('shareBtn').addEventListener('click', function (e) {
+    e.preventDefault();
+    var web = this.href, left = false;
+    var mark = function () { if (document.hidden) left = true; };
+    document.addEventListener('visibilitychange', mark);
+    window.location.href = 'whatsapp://send?text=' + encodeURIComponent(teks);
+    setTimeout(function () {
+      document.removeEventListener('visibilitychange', mark);
+      if (!left && !document.hidden) window.location.href = web;
+    }, 1800);
+  });
+})();
+</script>
+</body>
+</html>
