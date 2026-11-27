@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta property="og:title" content="Catatan PR">
+<meta property="og:description" content="Catat PR dan tugas sekolah, lengkap dengan tanggal kumpul dan pengingat.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://gwgantenk67.github.io/surat-guru/catatan-pr-logo.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gwgantenk67.github.io/surat-guru/catatan-pr-logo.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f3444">
+<title>Catatan PR</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@500;700&display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Nunito,system-ui,sans-serif;color:#eef7fa;background:linear-gradient(180deg,#0e3444,#12506c) fixed;padding:18px 16px 60px}
+.wrap{max-width:520px;margin:0 auto}
+h1{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:2.1rem;margin:4px 0 2px;color:#ffa31f}
+.sub{margin:0 0 16px;color:#b9d8e2}
+.card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:14px;margin-bottom:14px}
+label{display:block;font-weight:700;font-size:.85rem;margin:10px 0 4px;color:#cfe6ee}
+label:first-child{margin-top:0}
+input,select{width:100%;font:inherit;font-size:1rem;padding:11px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:#0b2a38;color:#fff}
+input:focus,select:focus{outline:2px solid #ffa31f}
+.row{display:flex;gap:10px}.row>div{flex:1;min-width:0}
+.btn{width:100%;margin-top:14px;font:inherit;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.1rem;padding:12px;border:0;border-radius:14px;background:#ffa31f;color:#2b1700;box-shadow:0 4px 0 #c47400;cursor:pointer}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #c47400}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tab{flex:1;font:inherit;font-weight:700;padding:9px 4px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#cfe6ee;cursor:pointer}
+.tab[aria-pressed=true]{background:#ffa31f;color:#2b1700;border-color:#ffa31f}
+.item{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px;margin-bottom:10px}
+.item.done{opacity:.55}.item.done .t{text-decoration:line-through}
+.ck{flex:none;width:30px;height:30px;border-radius:10px;border:2px solid #ffa31f;background:transparent;color:#2b1700;font-size:1.1rem;font-weight:800;cursor:pointer;margin-top:2px}
+.done .ck{background:#ffa31f}
+.body{flex:1;min-width:0}
+.m{font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#7fd4ee}
+.t{font-size:1.05rem;font-weight:700;overflow-wrap:anywhere}
+.d{display:inline-block;margin-top:5px;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:800;background:rgba(255,255,255,.14)}
+.d.late{background:#ff5a6a;color:#fff}.d.today{background:#ffa31f;color:#2b1700}.d.soon{background:#ffd76a;color:#3b2a00}
+.x{flex:none;border:0;background:transparent;color:#ff9aa5;font-size:1.3rem;cursor:pointer;padding:2px 6px}
+.empty{text-align:center;color:#b9d8e2;padding:22px 8px}
+.clr{background:transparent;border:1px solid rgba(255,255,255,.25);color:#cfe6ee;font:inherit;padding:10px;border-radius:12px;width:100%;margin-top:6px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Catatan PR</h1>
+  <p class="sub" id="ringkas">Catat PR biar nggak ada yang kelupaan.</p>
+
+  <form class="card" id="f" autocomplete="off">
+    <label for="mp">Mata pelajaran</label>
+    <select id="mp"></select>
+    <label for="tg">Tugasnya apa?</label>
+    <input id="tg" maxlength="120" placeholder="Contoh: Kerjakan soal halaman 45" required>
+    <label for="tk">Kumpul tanggal</label>
+    <input id="tk" type="date" required>
+    <button class="btn" type="submit">Tambah PR</button>
+  </form>
+
+  <div class="tabs" id="tabs">
+    <button class="tab" type="button" data-f="belum" aria-pressed="true">Belum</button>
+    <button class="tab" type="button" data-f="selesai" aria-pressed="false">Selesai</button>
+    <button class="tab" type="button" data-f="semua" aria-pressed="false">Semua</button>
+  </div>
+  <div id="list"></div>
+  <button class="clr" type="button" id="hapusSelesai">Hapus semua yang sudah selesai</button>
+</div>
+<script>
+(function(){
+  var MAPEL=['Matematika','Bahasa Indonesia','Bahasa Inggris','IPA','IPS','PPKn','Seni Budaya','PJOK','Informatika','Agama','Lainnya'];
+  var KEY='catatan-pr-v1', data=[], filter='belum';
+  function $(i){return document.getElementById(i)}
+  try{data=JSON.parse(localStorage.getItem(KEY)||'[]')||[]}catch(e){data=[]}
+  function simpan(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}
+  $('mp').innerHTML=MAPEL.map(function(m){return '<option>'+m+'</option>'}).join('');
+  function pad(n){return (n<10?'0':'')+n}
+  function hari(){var n=new Date();return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate())}
+  function selisih(tgl){var a=new Date(hari()+'T00:00:00'),b=new Date(tgl+'T00:00:00');return Math.round((b-a)/864e5)}
+  $('tk').value=hari(); $('tk').min='2000-01-01';
+  var BLN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  function tglIndo(t){var p=t.split('-');return +p[2]+' '+BLN[+p[1]-1]+' '+p[0]}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function label(it){
+    var d=selisih(it.tgl),c='',t;
+    if(it.done){return {c:'',t:'Kumpul '+tglIndo(it.tgl)}}
+    if(d<0){c='late';t='Terlambat '+(-d)+' hari'}
+    else if(d===0){c='today';t='Kumpul hari ini!'}
+    else if(d===1){c='soon';t='Besok'}
+    else if(d<=3){c='soon';t=d+' hari lagi'}
+    else{t=d+' hari lagi · '+tglIndo(it.tgl)}
+    return {c:c,t:t};
+  }
+  function tampil(){
+    var items=data.slice().sort(function(a,b){return a.done-b.done||a.tgl.localeCompare(b.tgl)});
+    var belum=data.filter(function(x){return !x.done}).length;
+    var hariIni=data.filter(function(x){return !x.done&&selisih(x.tgl)<=0}).length;
+    $('ringkas').textContent=belum?(belum+' PR belum selesai'+(hariIni?' · '+hariIni+' harus dikumpul hari ini atau sudah lewat':'')+'.'):'Tidak ada PR yang tertunda. Mantap!';
+    var show=items.filter(function(x){return filter==='semua'||(filter==='belum'?!x.done:x.done)});
+    if(!show.length){$('list').innerHTML='<div class="empty">'+(filter==='selesai'?'Belum ada PR yang selesai.':'Belum ada PR di sini.')+'</div>';return}
+    $('list').innerHTML=show.map(function(it){
+      var l=label(it);
+      return '<div class="item'+(it.done?' done':'')+'"><button class="ck" type="button" data-ck="'+it.id+'" aria-label="Tandai selesai">'+(it.done?'✓':'')+'</button><div class="body"><div class="m">'+esc(it.mp)+'</div><div class="t">'+esc(it.tg)+'</div><span class="d '+l.c+'">'+l.t+'</span></div><button class="x" type="button" data-x="'+it.id+'" aria-label="Hapus">✕</button></div>';
+    }).join('');
+  }
+  $('f').addEventListener('submit',function(e){
+    e.preventDefault();
+    var tg=$('tg').value.trim(); if(!tg||!$('tk').value) return;
+    data.push({id:Date.now()+Math.floor(Math.random()*1000),mp:$('mp').value,tg:tg,tgl:$('tk').value,done:false});
+    simpan(); $('tg').value=''; filter='belum'; tabUpdate(); tampil();
+  });
+  $('list').addEventListener('click',function(e){
+    var ck=e.target.closest('[data-ck]'),x=e.target.closest('[data-x]');
+    if(ck){var id=+ck.getAttribute('data-ck');data.forEach(function(i){if(i.id===id)i.done=!i.done});simpan();tampil()}
+    else if(x){var id2=+x.getAttribute('data-x');data=data.filter(function(i){return i.id!==id2});simpan();tampil()}
+  });
+  function tabUpdate(){Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-f')===filter))})}
+  $('tabs').addEventListener('click',function(e){var b=e.target.closest('.tab');if(!b)return;filter=b.getAttribute('data-f');tabUpdate();tampil()});
+  $('hapusSelesai').addEventListener('click',function(){data=data.filter(function(i){return !i.done});simpan();tampil()});
+  tampil();
+})();
+</script>
+</body>
+</html>
